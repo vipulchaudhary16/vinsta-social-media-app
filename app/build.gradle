@@ -48,8 +48,4 @@ dependencies {
     //rounded image view
     implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation 'com.github.florent37:diagonallayout:1.0.9'
-
-
-
-
 }

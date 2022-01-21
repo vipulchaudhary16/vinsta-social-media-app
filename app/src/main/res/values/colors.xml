@@ -10,4 +10,5 @@
     <color name="orange">#FFA500</color>
 
     <color name="navbar_bg">#17ad9e</color>
+    <color name="transparent">#65FFFFFF</color>
 </resources>

@@ -6,21 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.iammert.library.readablebottombar.ReadableBottomBar
-        android:id="@+id/readable_bottom_bar"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:rbb_tabs="@xml/tabs"
-        app:rbb_activeItemType="text"
-        android:paddingStart="5dp"
-        android:paddingEnd="5dp"
-        app:rbb_backgroundColor="@color/navbar_bg"
-        app:rbb_indicatorColor="@color/orange"
-        />
-
     <FrameLayout
         android:id="@+id/frameLayout_container"
         android:layout_width="0dp"
@@ -33,6 +18,37 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
     </FrameLayout>
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@color/transparent"
+        android:minHeight="?attr/actionBarSize"
+        app:popupTheme="@style/Theme.AppCompat.Light"
+        android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.iammert.library.readablebottombar.ReadableBottomBar
+        android:id="@+id/readable_bottom_bar"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:rbb_activeItemType="text"
+        app:rbb_backgroundColor="@color/navbar_bg"
+        app:rbb_indicatorColor="@color/orange"
+        app:rbb_tabs="@xml/tabs">
+
+    </com.iammert.library.readablebottombar.ReadableBottomBar>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
