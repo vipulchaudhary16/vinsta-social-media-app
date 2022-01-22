@@ -1,6 +1,10 @@
 plugins {
     id 'com.android.application'
 }
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+
+
 
 android {
     compileSdk 31
@@ -48,4 +52,17 @@ dependencies {
     //rounded image view
     implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation 'com.github.florent37:diagonallayout:1.0.9'
+    implementation 'com.google.android.material:material:1.6.0-alpha01'
+    implementation platform('com.google.firebase:firebase-bom:29.0.4')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.android.gms:play-services-auth:20.0.1'
+    implementation 'com.google.firebase:firebase-database'
+    implementation 'com.google.firebase:firebase-storage'
+
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+    implementation 'com.google.android.material:material:1.5.0'
+
+
 }

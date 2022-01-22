@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         binding.toolbar.setVisibility(View.GONE);
-        fragmentTransaction.replace(R.id.frameLayout_container, new ProfileFragment());
+        fragmentTransaction.replace(R.id.frameLayout_container, new HomeFragment());
         fragmentTransaction.commit();
 
         binding.readableBottomBar.setOnItemSelectListener(i -> {
@@ -37,21 +37,18 @@ public class MainActivity extends AppCompatActivity {
                     FragmentTransaction fragmentTransaction0 = getSupportFragmentManager().beginTransaction();
                     binding.toolbar.setVisibility(View.GONE);
                     fragmentTransaction0.replace(R.id.frameLayout_container, new HomeFragment());
-                    Toast.makeText(this, "Home", Toast.LENGTH_SHORT).show();
                     fragmentTransaction0.commit();
                     break;
                 case 1:
                     FragmentTransaction fragmentTransaction1 = getSupportFragmentManager().beginTransaction();
                     binding.toolbar.setVisibility(View.GONE);
                     fragmentTransaction1.replace(R.id.frameLayout_container, new NotificationFragment());
-                    Toast.makeText(this, "Notification", Toast.LENGTH_SHORT).show();
                     fragmentTransaction1.commit();
                     break;
                 case 2:
                     FragmentTransaction fragmentTransaction2 = getSupportFragmentManager().beginTransaction();
                     binding.toolbar.setVisibility(View.GONE);
                     fragmentTransaction2.replace(R.id.frameLayout_container, new AddFragment());
-                    Toast.makeText(this, "Add", Toast.LENGTH_SHORT).show();
                     fragmentTransaction2.commit();
                     break;
                 case 3:
