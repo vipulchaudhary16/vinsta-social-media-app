@@ -51,6 +51,25 @@
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/filledTextField_Username"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="Username"
+        app:hintTextColor="#448AFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/filledTextField_name">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/username_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/filledTextField_email"
@@ -64,7 +83,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/filledTextField_name">
+        app:layout_constraintTop_toBottomOf="@id/filledTextField_Username">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email_edit_text_signup"

@@ -26,10 +26,11 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
+import com.veercreation.vinsta.LogInActivity;
 import com.veercreation.vinsta.R;
-import com.veercreation.vinsta.adapter.FriendAdapter;
+import com.veercreation.vinsta.adapter.FollowerAdapter;
 import com.veercreation.vinsta.databinding.FragmentProfileBinding;
-import com.veercreation.vinsta.model.FriendModel;
+import com.veercreation.vinsta.model.FollowerModel;
 import com.veercreation.vinsta.model.User;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ import java.util.Objects;
 public class ProfileFragment extends Fragment {
 
     RecyclerView myFriendsRV;
-    ArrayList<FriendModel> myFriendList;
+    ArrayList<FollowerModel> myFriendList;
     FragmentProfileBinding binding;
     FirebaseAuth auth;
     FirebaseStorage firebaseStorage;
@@ -51,7 +52,6 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
         auth = FirebaseAuth.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
         database = FirebaseDatabase.getInstance();
@@ -61,56 +61,34 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentProfileBinding.inflate(inflater, container, false);
-
-        database.getReference().child("Users").child(Objects.requireNonNull(auth.getUid())).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    User user = snapshot.getValue(User.class);
-                    if (user != null) {
-                        Picasso.get()
-                                .load(user.getCover_picture())
-                                .placeholder(R.drawable.user)
-                                .into(binding.profileCover);
-                        Log.i("results", user.getCover_picture());
-                        Picasso.get()
-                                .load(user.getProfile_picture())
-                                .placeholder(R.drawable.user)
-                                .into(binding.profileImageInProfile);
-                        binding.usernameInProfile.setText(user.getName());
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
         myFriendsRV = binding.myFriendRV;
         myFriendList = new ArrayList<>();
-
-        myFriendList.add(new FriendModel(R.drawable.sample_01));
-        myFriendList.add(new FriendModel(R.drawable.sample_02));
-        myFriendList.add(new FriendModel(R.drawable.sample_03));
-        myFriendList.add(new FriendModel(R.drawable.sample_02));
-        myFriendList.add(new FriendModel(R.drawable.sample_02));
-        myFriendList.add(new FriendModel(R.drawable.sample_01));
-        myFriendList.add(new FriendModel(R.drawable.sample_03));
-        myFriendList.add(new FriendModel(R.drawable.sample_01));
-        myFriendList.add(new FriendModel(R.drawable.sample_01));
-        myFriendList.add(new FriendModel(R.drawable.sample_01));
-        myFriendList.add(new FriendModel(R.drawable.sample_01));
-        myFriendList.add(new FriendModel(R.drawable.sample_01));
-
-        FriendAdapter friendAdapter = new FriendAdapter(myFriendList, getContext());
+        FollowerAdapter followerAdapter = new FollowerAdapter(myFriendList, getContext());
         LinearLayoutManager myFriendRvManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-
         myFriendsRV.setLayoutManager(myFriendRvManager);
+        myFriendsRV.setAdapter(followerAdapter);
 
-        myFriendsRV.setAdapter(friendAdapter);
+        database.getReference().child("Users")
+                .child(auth.getUid())
+                .child("followers")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
+                            FollowerModel follow = dataSnapshot.getValue(FollowerModel.class);
+                            myFriendList.add(follow);
+                            Log.i("userdata" , snapshot.getValue().toString());
+                        }
+                        followerAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
 
         return binding.getRoot();
     }
@@ -120,6 +98,15 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         binding.editCoverPic.setOnClickListener(view1 -> selectPic(1));
         binding.profileImageInProfile.setOnClickListener(view1 -> selectPic(2));
+        binding.floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                auth.signOut();
+                Intent intent = new Intent(getContext() , LogInActivity.class);
+                startActivity(intent);
+            }
+        });
+        loadUserData();
     }
 
     private void selectPic(int reqCode) {
@@ -174,5 +161,32 @@ public class ProfileFragment extends Fragment {
             }
 
         }
+    }
+
+    public void loadUserData(){
+        database.getReference().child("Users").child(Objects.requireNonNull(auth.getUid())).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    User user = snapshot.getValue(User.class);
+                        Picasso.get()
+                                .load(user.getCover_picture())
+                                .placeholder(R.drawable.user)
+                                .into(binding.profileCover);
+                        Log.i("results", user.getCover_picture());
+                        Picasso.get()
+                                .load(user.getProfile_picture())
+                                .placeholder(R.drawable.user)
+                                .into(binding.profileImageInProfile);
+                    binding.usernameInProfile.setText(user.getName());
+                    binding.followersCount.setText(user.getFollowerCount()+"");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

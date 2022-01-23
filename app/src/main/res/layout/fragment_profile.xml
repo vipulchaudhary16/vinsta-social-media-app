@@ -5,9 +5,7 @@
     android:id="@+id/constrainLayoutInProfile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     tools:context=".fragments.ProfileFragment">
-
 
     <com.github.florent37.diagonallayout.DiagonalLayout
         android:id="@+id/diagonalLayout"
@@ -24,10 +22,10 @@
 
         <ImageView
             android:id="@+id/profileCover"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-           />
+            diagonal:srcCompat="@drawable/user" />
 
         <View
             android:id="@+id/view3"
@@ -42,7 +40,8 @@
         android:id="@+id/profile_image_in_profile"
         android:layout_width="@dimen/_90mdp"
         android:layout_height="@dimen/_90mdp"
-        diagonal:civ_border_color="@color/white"
+        android:src="@drawable/user"
+        diagonal:civ_border_color="@color/orange"
         diagonal:civ_border_width="1dp"
         diagonal:layout_constraintBottom_toBottomOf="@+id/diagonalLayout"
         diagonal:layout_constraintEnd_toEndOf="@id/diagonalLayout"
@@ -67,7 +66,6 @@
         android:layout_marginTop="4dp"
         android:fontFamily="@font/amita"
         android:text="VipulChaudhary.class"
-        android:textColor="@color/black"
         android:textSize="@dimen/_12font_mdp"
         android:textStyle="bold"
         diagonal:layout_constraintEnd_toEndOf="@+id/profile_image_in_profile"
@@ -81,6 +79,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="12dp"
         android:background="@drawable/follow"
+        android:backgroundTint="#FFD740"
         diagonal:layout_constraintEnd_toStartOf="@+id/dm"
         diagonal:layout_constraintHorizontal_chainStyle="spread"
         diagonal:layout_constraintStart_toStartOf="parent"
@@ -92,6 +91,7 @@
         android:layout_height="@dimen/_30mdp"
         android:layout_marginTop="4dp"
         android:background="@drawable/dm"
+        android:backgroundTint="#FFD740"
         diagonal:layout_constraintEnd_toEndOf="parent"
         diagonal:layout_constraintStart_toEndOf="@+id/follow"
         diagonal:layout_constraintTop_toBottomOf="@+id/username_in_profile" />
@@ -133,9 +133,9 @@
                 diagonal:layout_constraintTop_toTopOf="@+id/view6" />
 
             <TextView
+                android:id="@+id/postCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="7"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_14font_mdp"
                 android:textStyle="bold"
@@ -156,9 +156,9 @@
                 diagonal:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/followers_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="500"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_14font_mdp"
                 android:textStyle="bold"
@@ -190,9 +190,9 @@
                 diagonal:layout_constraintTop_toTopOf="@+id/view5" />
 
             <TextView
+                android:id="@+id/friendsCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="500"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_14font_mdp"
                 android:textStyle="bold"
@@ -224,7 +224,6 @@
         android:layout_marginEnd="8dp"
         android:gravity="center"
         android:text="@string/my_bio"
-        android:textColor="@color/black"
         android:textSize="@dimen/_14font_mdp"
         diagonal:layout_constraintEnd_toEndOf="@+id/cardView"
         diagonal:layout_constraintStart_toStartOf="@+id/cardView"
@@ -236,8 +235,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="11dp"
         android:fontFamily="sans-serif-black"
-        android:text="My Friends"
-        android:textColor="@color/black"
+        android:text="My Followers"
         android:textSize="@dimen/_18font_mdp"
         android:textStyle="bold"
         diagonal:layout_constraintStart_toStartOf="@+id/bio"
@@ -253,6 +251,18 @@
         diagonal:layout_constraintHorizontal_bias="0.5"
         diagonal:layout_constraintStart_toStartOf="parent"
         diagonal:layout_constraintTop_toBottomOf="@+id/myFriendHeadingTextView" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:clickable="true"
+        android:src="@drawable/login"
+        diagonal:layout_constraintBottom_toBottomOf="parent"
+        diagonal:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="SpeakableTextPresentCheck" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

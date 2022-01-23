@@ -37,12 +37,15 @@ public class SignUpActivity extends AppCompatActivity {
         String email = Objects.requireNonNull(activitySignUpBinding.emailEditTextSignup.getText()).toString();
         String password = Objects.requireNonNull(activitySignUpBinding.passwordEditTextSignup.getText()).toString();
         String name = Objects.requireNonNull(activitySignUpBinding.nameEditText.getText()).toString();
+        String username = Objects.requireNonNull(activitySignUpBinding.usernameEditText.getText()).toString();
+        String dummyCoverPic = "https://firebasestorage.googleapis.com/v0/b/vinsta-d08d4.appspot.com/o/cover_photo%2Fsample_cover.png?alt=media&token=efe4fa24-9133-4d1e-9c7c-96d076ba0898";
+        String dummyProfilePic = "https://firebasestorage.googleapis.com/v0/b/vinsta-d08d4.appspot.com/o/cover_photo%2Fuser.png?alt=media&token=e6f76621-420f-4ab8-898d-4b17b10eb511";
 
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
-
                     if (task.isSuccessful()) {
-                        User user = new User(name , email , password);
+                        User user = new User(name , email , password , dummyCoverPic , dummyProfilePic);
+                        user.setuserId(auth.getUid());
                         String id = Objects.requireNonNull(task.getResult().getUser()).getUid();
                         database.getReference().child("Users").child(id).setValue(user);
                         Toast.makeText(SignUpActivity.this, "Success", Toast.LENGTH_SHORT).show();

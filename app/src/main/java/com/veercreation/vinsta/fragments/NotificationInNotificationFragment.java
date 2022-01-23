@@ -43,13 +43,10 @@ public class NotificationInNotificationFragment extends Fragment {
         listOfNotification.add(new NotificationModel(R.drawable.profile_icon , "<b>Sweta</b> liked your post" , "just now"));
         listOfNotification.add(new NotificationModel(R.drawable.profile_icon , "<b>Sharma007</b> commented on your post\"" , "just now"));
         listOfNotification.add(new NotificationModel(R.drawable.profile_icon , "is that you should do the work now and you are great man" , "1 minute ago"));
-
-
         NotificationAdapter notificationAdapter = new NotificationAdapter(getContext() , listOfNotification);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext() , LinearLayoutManager.VERTICAL , false);
         recyclerviewOfNotification.setLayoutManager(layoutManager);
         recyclerviewOfNotification.setAdapter(notificationAdapter);
-
         return view;
     }
 }
