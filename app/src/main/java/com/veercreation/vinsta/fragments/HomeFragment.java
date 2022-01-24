@@ -53,9 +53,6 @@ public class HomeFragment extends Fragment {
         dashboardRV = view.findViewById(R.id.dashboardRV);
         postList = new ArrayList<>();
 
-        postList.add(new PostModel(R.drawable.sample_01 , R.drawable.sample_01 , R.drawable.plus ,"Vipul.js" , "Developer" , "56" , "123" , "0" ));
-        postList.add(new PostModel(R.drawable.sample_01 , R.drawable.sample_02 , R.drawable.plus ,"Vipul.js" , "Developer" , "56" , "123" , "0" ));
-        postList.add(new PostModel(R.drawable.sample_01 , R.drawable.sample_03 , R.drawable.plus ,"Vipul.js" , "Developer" , "56" , "123" , "0" ));
 
         PostAdapter postAdapter = new PostAdapter(postList , getContext());
         LinearLayoutManager linearLayoutManagerForPost = new LinearLayoutManager(getContext() );

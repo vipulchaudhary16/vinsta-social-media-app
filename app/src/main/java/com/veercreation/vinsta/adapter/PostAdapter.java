@@ -35,16 +35,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.viewholder> {
     @Override
     public void onBindViewHolder(@NonNull viewholder holder, int position) {
         PostModel model = postList.get(position);
-        holder.profile.setImageResource(model.getProfile());
-        holder.username.setText(model.getUsername());
-        holder.about.setText(model.getAbout());
 
-        holder.postImage.setImageResource(model.getPostPicture());
-        holder.save.setImageResource(model.getSave());
-
-        holder.likes.setText(model.getLikes());
-        holder.comments.setText(model.getComments());
-        holder.share.setText(model.getShares());
     }
 
     @Override

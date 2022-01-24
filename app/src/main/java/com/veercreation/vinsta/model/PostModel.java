@@ -1,81 +1,55 @@
 package com.veercreation.vinsta.model;
 
 public class PostModel {
-    int profile , postPicture , save;
-    String username , about , likes , comments , shares;
+    private String postId , postImage, postDesc, postedBy , postedAt;
 
-    public PostModel(int profile, int postPicture, int save, String username, String about, String likes, String comments, String shares) {
-        this.profile = profile;
-        this.postPicture = postPicture;
-        this.save = save;
-        this.username = username;
-        this.about = about;
-        this.likes = likes;
-        this.comments = comments;
-        this.shares = shares;
+    public PostModel(String postId, String postImage, String postDesc, String postedBy, String postedAt) {
+        this.postId = postId;
+        this.postImage = postImage;
+        this.postDesc = postDesc;
+        this.postedBy = postedBy;
+        this.postedAt = postedAt;
     }
 
-    public int getProfile() {
-        return profile;
+    public PostModel(){}
+
+    public String getPostId() {
+        return postId;
     }
 
-    public void setProfile(int profile) {
-        this.profile = profile;
+    public void setPostId(String postId) {
+        this.postId = postId;
     }
 
-    public int getPostPicture() {
-        return postPicture;
+    public String getPostImage() {
+        return postImage;
     }
 
-    public void setPostPicture(int postPicture) {
-        this.postPicture = postPicture;
+    public void setPostImage(String postImage) {
+        this.postImage = postImage;
     }
 
-    public int getSave() {
-        return save;
+    public String getPostDesc() {
+        return postDesc;
     }
 
-    public void setSave(int save) {
-        this.save = save;
+    public void setPostDesc(String postDesc) {
+        this.postDesc = postDesc;
     }
 
-    public String getUsername() {
-        return username;
+    public String getPostedBy() {
+        return postedBy;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setPostedBy(String postedBy) {
+        this.postedBy = postedBy;
     }
 
-    public String getAbout() {
-        return about;
+    public String getPostedAt() {
+        return postedAt;
     }
 
-    public void setAbout(String about) {
-        this.about = about;
-    }
-
-    public String getLikes() {
-        return likes;
-    }
-
-    public void setLikes(String likes) {
-        this.likes = likes;
-    }
-
-    public String getComments() {
-        return comments;
-    }
-
-    public void setComments(String comments) {
-        this.comments = comments;
-    }
-
-    public String getShares() {
-        return shares;
-    }
-
-    public void setShares(String shares) {
-        this.shares = shares;
+    public void setPostedAt(String postedAt) {
+        this.postedAt = postedAt;
     }
 }
