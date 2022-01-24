@@ -65,7 +65,7 @@ Context context;
     public int getItemCount() {
         return list.size();
     }
-    public class viewHolder extends RecyclerView.ViewHolder{
+    public static class viewHolder extends RecyclerView.ViewHolder{
     FriendRvSampleBinding binding;
         public viewHolder(@NonNull View itemView) {
             super(itemView);

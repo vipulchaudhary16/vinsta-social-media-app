@@ -20,4 +20,6 @@
     <string name="don_t_have_an_account">Don\'t have an account?</string>
     <string name="register">Register</string>
     <string name="following">Following</string>
+    <string name="post_button_text">post</string>
+    <string name="create_a_post_text">Create a Post</string>
 </resources>
