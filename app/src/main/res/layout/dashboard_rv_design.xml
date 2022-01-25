@@ -24,18 +24,21 @@
         android:layout_marginStart="6dp"
         android:layout_marginTop="6dp"
         android:text="username"
+        android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/about_in_post"
+        app:layout_constraintBottom_toTopOf="@+id/postTime"
         app:layout_constraintStart_toEndOf="@+id/profile_image_in_post"
-        app:layout_constraintTop_toTopOf="@+id/profile_image_in_post" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/about_in_post"
+        android:id="@+id/postTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
-        android:text="about"
-        app:layout_constraintStart_toStartOf="@+id/username_in_post"
+        android:layout_marginStart="6dp"
+        android:text="just now"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/profile_image_in_post"
+        app:layout_constraintStart_toEndOf="@+id/profile_image_in_post"
         app:layout_constraintTop_toBottomOf="@+id/username_in_post" />
 
     <ImageView
@@ -52,11 +55,10 @@
         android:id="@+id/postImage"
         android:layout_width="0dp"
         android:layout_height="@dimen/_150mdp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="6dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/sample_02"
+        android:src="@drawable/sample_cover"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.421"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_image_in_post"
         app:riv_corner_radius="15dip"
@@ -80,7 +82,7 @@
         android:layout_marginTop="8dp"
         android:drawablePadding="5dp"
         android:gravity="center"
-        android:text="69"
+        android:text="77"
         android:textSize="14sp"
         app:drawableStartCompat="@drawable/ic_like"
         app:layout_constraintStart_toStartOf="parent"
@@ -94,7 +96,7 @@
         android:layout_marginTop="8dp"
         android:drawablePadding="5dp"
         android:gravity="center"
-        android:text="69"
+        android:text="77"
         android:textSize="14sp"
         app:drawableStartCompat="@drawable/ic_comment"
         app:layout_constraintStart_toEndOf="@+id/likes"
@@ -108,10 +110,23 @@
         android:layout_marginTop="8dp"
         android:drawablePadding="5dp"
         android:gravity="center"
-        android:text="69"
+        android:text="77"
         android:textSize="14sp"
         app:drawableStartCompat="@drawable/ic_forward"
         app:layout_constraintStart_toEndOf="@+id/comments"
         app:layout_constraintTop_toBottomOf="@+id/postImage" />
+
+    <TextView
+        android:id="@+id/postDesc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="8dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/comments" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

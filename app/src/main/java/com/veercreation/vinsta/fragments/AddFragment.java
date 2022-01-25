@@ -33,6 +33,7 @@ import com.veercreation.vinsta.model.PostModel;
 import com.veercreation.vinsta.model.User;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class AddFragment extends Fragment {
     FragmentAddBinding binding;
@@ -50,15 +51,13 @@ public class AddFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         auth = FirebaseAuth.getInstance();
-       database =  FirebaseDatabase.getInstance();
-       storage = FirebaseStorage.getInstance();
-       progressDialog = new ProgressDialog(getContext());
-
+        database = FirebaseDatabase.getInstance();
+        storage = FirebaseStorage.getInstance();
+        progressDialog = new ProgressDialog(getContext());
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentAddBinding.inflate(inflater, container, false);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setTitle("Post Uploading");
@@ -67,11 +66,12 @@ public class AddFragment extends Fragment {
         progressDialog.setCanceledOnTouchOutside(false);
 
         database.getReference().child("Users")
-                .child(auth.getUid())
+                .child(Objects.requireNonNull(auth.getUid()))
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         User user = snapshot.getValue(User.class);
+                        assert user != null;
                         Picasso.get()
                                 .load(user.getProfile_picture())
                                 .placeholder(R.drawable.user)
@@ -95,11 +95,11 @@ public class AddFragment extends Fragment {
                 String description = binding.editTextPostDesc.getText().toString();
                 if (!description.isEmpty()) {
                     binding.postButton.setEnabled(true);
-                    binding.postButton.setBackgroundDrawable(ContextCompat.getDrawable(getContext() , R.drawable.follow_bg));
+                    binding.postButton.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.follow_bg));
                     binding.postButton.setTextColor(getContext().getColor(R.color.black));
                 } else {
                     binding.postButton.setEnabled(false);
-                    binding.postButton.setBackgroundDrawable(ContextCompat.getDrawable(getContext() , R.drawable.followed_bg));
+                    binding.postButton.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.followed_bg));
                     binding.postButton.setTextColor(getContext().getColor(R.color.postText));
                 }
             }
@@ -115,6 +115,8 @@ public class AddFragment extends Fragment {
         return binding.getRoot();
     }
 
+
+
     private void selectPic(int reqCode) {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -125,8 +127,8 @@ public class AddFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(data.getData()!=null){
-            if(requestCode==1){
+        if (data.getData() != null) {
+            if (requestCode == 1) {
                 postUri = data.getData();
                 binding.postingImage.setImageURI(postUri);
             }
@@ -134,33 +136,33 @@ public class AddFragment extends Fragment {
 
     }
 
-    void addPostToDatabase(){
+    void addPostToDatabase() {
         binding.progressBar.setVisibility(View.VISIBLE);
         binding.postButton.setEnabled(false);
         progressDialog.show();
         final StorageReference userPostPath = storage.getReference()
                 .child("posts")
-                .child(auth.getUid())
-                .child(new Date().getTime()+"");
+                .child(Objects.requireNonNull(auth.getUid()))
+                .child(new Date().getTime() + "");
 
         userPostPath.putFile(postUri).addOnSuccessListener(taskSnapshot -> {
-        userPostPath.getDownloadUrl().addOnSuccessListener(uri -> {
-            PostModel post = new PostModel();
-            post.setPostImage(uri.toString());
-            post.setPostDesc(binding.editTextPostDesc.getText().toString());
-            post.setPostedBy(auth.getUid());
-            post.setPostedAt(String.valueOf(new Date().getTime()));
+            userPostPath.getDownloadUrl().addOnSuccessListener(uri -> {
+                PostModel post = new PostModel();
+                post.setPostImage(uri.toString());
+                post.setPostDesc(binding.editTextPostDesc.getText().toString());
+                post.setPostedBy(auth.getUid());
+                post.setPostedAt(String.valueOf(new Date().getTime()));
 
-            database.getReference().child("posts")
-                    .push()
-                    .setValue(post)
-                    .addOnSuccessListener(unused -> {
-                        binding.progressBar.setVisibility(View.INVISIBLE);
-                        binding.postButton.setEnabled(true);
-                        Toast.makeText(getContext(), "Posted", Toast.LENGTH_SHORT).show();
-                        progressDialog.dismiss();
-                    });
-        });
+                database.getReference().child("posts")
+                        .push()
+                        .setValue(post)
+                        .addOnSuccessListener(unused -> {
+                            binding.progressBar.setVisibility(View.INVISIBLE);
+                            binding.postButton.setEnabled(true);
+                            Toast.makeText(getContext(), "Posted", Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+                        });
+            });
         });
 
 
