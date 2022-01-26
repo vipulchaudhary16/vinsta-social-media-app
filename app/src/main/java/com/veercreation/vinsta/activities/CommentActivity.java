@@ -23,7 +23,10 @@ import com.squareup.picasso.Picasso;
 import com.veercreation.vinsta.R;
 import com.veercreation.vinsta.adapter.CommentAdapter;
 import com.veercreation.vinsta.databinding.ActivityCommentBinding;
+import com.veercreation.vinsta.keys.DatabaseUtilities;
+import com.veercreation.vinsta.keys.NotificationTypes;
 import com.veercreation.vinsta.model.Comment;
+import com.veercreation.vinsta.model.Notification;
 import com.veercreation.vinsta.model.PostModel;
 import com.veercreation.vinsta.model.User;
 
@@ -34,7 +37,7 @@ import java.util.Objects;
 public class CommentActivity extends AppCompatActivity {
     ActivityCommentBinding binding;
     Intent intent;
-    String postId , postedBy , postDesc;
+    String postId, postedBy, postDesc;
     FirebaseAuth auth;
     FirebaseDatabase database;
 
@@ -58,7 +61,7 @@ public class CommentActivity extends AppCompatActivity {
         postId = intent.getStringExtra("postId");
         postedBy = intent.getStringExtra("postedBy");
 
-        adapter = new CommentAdapter(getApplicationContext() , commentArrayList);
+        adapter = new CommentAdapter(getApplicationContext(), commentArrayList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         binding.commentRV.setLayoutManager(linearLayoutManager);
         binding.commentRV.setAdapter(adapter);
@@ -105,10 +108,10 @@ public class CommentActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Database error occurred", Toast.LENGTH_SHORT).show();
                     }
                 });
-        binding.commentPostButton.setOnClickListener(view->
+        binding.commentPostButton.setOnClickListener(view ->
                 {
-                    if(binding.commentEditText.getText().toString().isEmpty()){
-                        Toast.makeText(getApplicationContext() , "Comment to lakh bhai" , Toast.LENGTH_SHORT).show();
+                    if (binding.commentEditText.getText().toString().isEmpty()) {
+                        Toast.makeText(getApplicationContext(), "Comment to lakh bhai", Toast.LENGTH_SHORT).show();
 
                     } else {
 
@@ -143,8 +146,28 @@ public class CommentActivity extends AppCompatActivity {
                                                 binding.commentEditText.setText("");
                                                 Toast.makeText(getApplicationContext(), "commented", Toast.LENGTH_SHORT).show();
                                                 binding.commentRV.smoothScrollToPosition(adapter.getItemCount());
+                                                Notification notification = new Notification();
+                                                notification.setNotiAt(new Date().getTime());
+                                                notification.setType(NotificationTypes.COMMENT);
+                                                //notification send by
+                                                notification.setNotiBy(FirebaseAuth.getInstance().getUid());
+                                                notification.setPostID(postId);
+                                                notification.setPostedBy(postedBy);
 
-                                            }).addOnFailureListener(e -> Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show());
+
+                                                FirebaseDatabase.getInstance().getReference()
+                                                        .child(DatabaseUtilities.NOTIFICATION)
+                                                        //notification send to
+                                                        .child(postedBy)
+                                                        .push()
+                                                        .setValue(notification);
+
+                                            }).addOnFailureListener(e ->
+                                    {
+                                        Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+
+                                    });
                                 }
 
                                 @Override
@@ -156,7 +179,7 @@ public class CommentActivity extends AppCompatActivity {
                         });
                     }
                 }
-                );
+        );
 
         database.getReference()
                 .child("posts")
@@ -165,15 +188,15 @@ public class CommentActivity extends AppCompatActivity {
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if(snapshot.exists()){
-                        commentArrayList.clear();
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                            Comment comment = dataSnapshot.getValue(Comment.class);
-                            commentArrayList.add(comment);
-                        }
-                        adapter.notifyDataSetChanged();
+                        if (snapshot.exists()) {
+                            commentArrayList.clear();
+                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                Comment comment = dataSnapshot.getValue(Comment.class);
+                                commentArrayList.add(comment);
+                            }
+                            adapter.notifyDataSetChanged();
 
-                    }
+                        }
                     }
 
                     @Override

@@ -27,7 +27,10 @@ import com.squareup.picasso.Picasso;
 import com.veercreation.vinsta.R;
 import com.veercreation.vinsta.databinding.FragmentSearchBinding;
 import com.veercreation.vinsta.databinding.UserSearchSampleBinding;
+import com.veercreation.vinsta.keys.DatabaseUtilities;
+import com.veercreation.vinsta.keys.NotificationTypes;
 import com.veercreation.vinsta.model.FollowerModel;
+import com.veercreation.vinsta.model.Notification;
 import com.veercreation.vinsta.model.User;
 
 import java.util.ArrayList;
@@ -94,6 +97,18 @@ public class UserSearchAdapter extends RecyclerView.Adapter<UserSearchAdapter.vi
                         holder.binding.followButton.setTextColor(context.getResources().getColor(R.color.black));
                         holder.binding.followButton.setText(R.string.following);
                         holder.binding.followButton.setEnabled(false);
+
+                        Notification notification = new Notification();
+                        notification.setNotiAt(new Date().getTime());
+                        notification.setNotiBy(FirebaseAuth.getInstance().getUid());
+                        notification.setType(NotificationTypes.FOLLOW);
+
+                        FirebaseDatabase.getInstance().getReference()
+                                .child(DatabaseUtilities.NOTIFICATION)
+                                .child(user.getuserId())
+                                .push()
+                                .setValue(notification);
+
                     });
                 }
             }

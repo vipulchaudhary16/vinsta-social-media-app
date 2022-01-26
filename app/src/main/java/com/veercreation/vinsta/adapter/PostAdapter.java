@@ -25,6 +25,9 @@ import com.veercreation.vinsta.R;
 import com.veercreation.vinsta.activities.CommentActivity;
 import com.veercreation.vinsta.databinding.DashboardRvDesignBinding;
 import com.veercreation.vinsta.global.Function;
+import com.veercreation.vinsta.keys.DatabaseUtilities;
+import com.veercreation.vinsta.keys.NotificationTypes;
+import com.veercreation.vinsta.model.Notification;
 import com.veercreation.vinsta.model.PostModel;
 import com.veercreation.vinsta.model.User;
 
@@ -126,6 +129,23 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.viewholder> {
                                                                 public void onSuccess(Void unused) {
                                                                     holder.binding.likesTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_liked, 0, 0, 0);
                                                                     holder.binding.likesTextView.setText(model.getPostLike() + 1 + "");
+
+                                                                    Notification notification = new Notification();
+                                                                    notification.setNotiAt(new Date().getTime());
+                                                                    notification.setType(NotificationTypes.LIKE);
+                                                                    //notification send by
+                                                                    notification.setNotiBy(FirebaseAuth.getInstance().getUid());
+
+                                                                    notification.setPostID(model.getPostId());
+                                                                    notification.setPostedBy(model.getPostedBy());
+
+
+                                                                    FirebaseDatabase.getInstance().getReference()
+                                                                            .child(DatabaseUtilities.NOTIFICATION)
+                                                                            //notification send to
+                                                                            .child(model.getPostedBy())
+                                                                            .push()
+                                                                            .setValue(notification);
                                                                 }
                                                             });
                                                 }

@@ -1,4 +1,4 @@
-package com.veercreation.vinsta;
+package com.veercreation.vinsta.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.veercreation.vinsta.MainActivity;
 import com.veercreation.vinsta.databinding.ActivitySignUpBinding;
 import com.veercreation.vinsta.model.User;
 import java.util.Locale;
