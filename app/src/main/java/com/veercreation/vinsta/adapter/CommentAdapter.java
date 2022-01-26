@@ -16,6 +16,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.veercreation.vinsta.R;
 import com.veercreation.vinsta.databinding.CommentSampleBinding;
+import com.veercreation.vinsta.global.Function;
 import com.veercreation.vinsta.model.Comment;
 import com.veercreation.vinsta.model.User;
 
@@ -44,7 +45,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.viewHold
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
         Comment comment = comments.get(position);
-        holder.binding.commentTime.setText(setTime(comment.getCommentedAt()));
+        holder.binding.commentTime.setText(Function.setTime(comment.getCommentedAt()));
         FirebaseDatabase.getInstance().getReference()
                 .child("Users")
                 .child(comment.getCommentedBy())
@@ -82,22 +83,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.viewHold
         public viewHolder(@NonNull View itemView) {
             super(itemView);
             binding = CommentSampleBinding.bind(itemView);
-        }
-    }
-
-    public static String setTime(Long commentTime){
-        long currentTime = new Date().getTime();
-        long timeGap = (currentTime-commentTime)/60000;
-        if(timeGap==0){
-            return  "just now";
-        }
-        if(timeGap<=60){
-            return timeGap +" min";
-        } else {
-            DateFormat formatter = new SimpleDateFormat("HH:mm:aa dd-MMM");
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(commentTime);
-            return formatter.format(calendar.getTime());
         }
     }
 }

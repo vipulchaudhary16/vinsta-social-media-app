@@ -24,6 +24,7 @@ import com.squareup.picasso.Picasso;
 import com.veercreation.vinsta.R;
 import com.veercreation.vinsta.activities.CommentActivity;
 import com.veercreation.vinsta.databinding.DashboardRvDesignBinding;
+import com.veercreation.vinsta.global.Function;
 import com.veercreation.vinsta.model.PostModel;
 import com.veercreation.vinsta.model.User;
 
@@ -64,7 +65,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.viewholder> {
                     .into(holder.binding.postImage);
             holder.binding.likesTextView.setText(Integer.toString(model.getPostLike()));
             holder.binding.commentsTextView.setText(Integer.toString(model.getCommentCount()));
-            holder.binding.postTime.setText(CommentAdapter.setTime(Long.parseLong(model.getPostedAt())));
+            holder.binding.postTime.setText(Function.setTime(Long.parseLong(model.getPostedAt())));
 
 
             //setting userdata

@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -43,7 +44,8 @@ import java.util.Date;
 public class HomeFragment extends Fragment {
 
     FragmentHomeBinding binding;
-    RecyclerView storyRV, dashboardRV;
+    RecyclerView storyRV;
+    ShimmerRecyclerView dashboardRV;
     ArrayList<StoryModel> storyList = new ArrayList<>();
     ArrayList<PostModel> postList = new ArrayList<>();
     PostAdapter postAdapter;
@@ -73,6 +75,8 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
+        dashboardRV = binding.dashboardRV;
+        dashboardRV.showShimmerAdapter();
         database = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
 
@@ -83,18 +87,18 @@ public class HomeFragment extends Fragment {
         //story recycler view
         storyRV = binding.storyRV;
          adapter = new StoryAdapter(storyList, getContext());
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, true);
         storyRV.setLayoutManager(linearLayoutManager);
         storyRV.setNestedScrollingEnabled(false);
         storyRV.setAdapter(adapter);
 
         //post recycler view
-        dashboardRV = binding.dashboardRV;
+
         postAdapter = new PostAdapter(getContext(), postList);
         LinearLayoutManager linearLayoutManagerForPost = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, true);
         dashboardRV.setLayoutManager(linearLayoutManagerForPost);
         dashboardRV.setNestedScrollingEnabled(false);
-        dashboardRV.setAdapter(postAdapter);
+
 
         getStories();
         getPosts();
@@ -127,7 +131,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onActivityResult(Uri result) {
                 progressDialog.show();
-                binding.currentUserStoryBg.setImageURI(result);
                 final StorageReference reference = storage.getReference()
                         .child("stories")
                         .child(auth.getUid())
@@ -186,7 +189,8 @@ public class HomeFragment extends Fragment {
         getPosts();
     }
 
-    public void getPosts() {
+    private void getPosts() {
+        dashboardRV.showShimmerAdapter();
         database.getReference()
                 .child("posts")
                 .addValueEventListener(new ValueEventListener() {
@@ -200,6 +204,8 @@ public class HomeFragment extends Fragment {
                             postList.add(postModel);
                             Log.i("postid", postModel.getPostId());
                         }
+                        dashboardRV.setAdapter(postAdapter);
+                        dashboardRV.hideShimmerAdapter();
                         postAdapter.notifyDataSetChanged();
                     }
 
@@ -239,5 +245,9 @@ public class HomeFragment extends Fragment {
 
                     }
                 });
+    }
+
+    private void seeStory(){
+
     }
 }

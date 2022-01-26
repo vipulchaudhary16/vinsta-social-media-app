@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -16,12 +17,18 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.veercreation.vinsta.R;
+import com.veercreation.vinsta.activities.CommentActivity;
 import com.veercreation.vinsta.databinding.StoryRvDesignBinding;
+import com.veercreation.vinsta.global.Function;
 import com.veercreation.vinsta.model.StoryModel;
 import com.veercreation.vinsta.model.User;
 import com.veercreation.vinsta.model.UserStories;
 
 import java.util.ArrayList;
+
+import omari.hamza.storyview.StoryView;
+import omari.hamza.storyview.callback.StoryClickListeners;
+import omari.hamza.storyview.model.MyStory;
 
 public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.viewHolder> {
 
@@ -43,20 +50,8 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.viewHolder> 
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
         StoryModel storyModel = list.get(position);
-        if(!storyModel.getStories().isEmpty()) {
 
-
-            UserStories lastStories = storyModel.getStories()
-                    .get(0);
-            if (storyModel.getStories().size() >= 2) {
-                lastStories = storyModel.getStories()
-                        .get(storyModel.getStories().size() - 1);
-            }
-            Picasso.get()
-                    .load(lastStories.getImageUrl())
-                    .placeholder(R.drawable.user)
-                    .into(holder.binding.storyImage);
-            holder.binding.storyCircleView.setPortionsCount(storyModel.getStories().size());
+        if (!storyModel.getStories().isEmpty()) {
             FirebaseDatabase.getInstance()
                     .getReference()
                     .child("Users")
@@ -69,9 +64,7 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.viewHolder> 
                                     .load(user.getProfile_picture())
                                     .placeholder(R.drawable.user)
                                     .into(holder.binding.profileImageInStory);
-
-                            holder.binding.usernameInStoryCard.setText(user.getName());
-
+                            holder.binding.profileImageInStory.setOnClickListener(view -> viewStory(storyModel, user));
                         }
 
                         @Override
@@ -95,5 +88,35 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.viewHolder> 
             binding = StoryRvDesignBinding.bind(itemView);
 
         }
+    }
+
+    private void viewStory(StoryModel storyModel, User user) {
+        ArrayList<MyStory> myStories = new ArrayList<>();
+
+        for (UserStories stories : storyModel.getStories()) {
+            myStories.add(new MyStory(
+                    stories.getImageUrl()
+
+            ));
+        }
+        new StoryView.Builder(((AppCompatActivity) context).getSupportFragmentManager())
+                .setStoriesList(myStories) // Required
+                .setStoryDuration(5000) // Default is 2000 Millis (2 Seconds)
+                .setTitleText(user.getName()) // Default is Hidden
+                .setSubtitleText(Function.setTime(storyModel.getStoryAt())) // Default is Hidden
+                .setTitleLogoUrl(user.getProfile_picture()) // Default is Hidden
+                .setStoryClickListeners(new StoryClickListeners() {
+                    @Override
+                    public void onDescriptionClickListener(int position) {
+                        //your action
+                    }
+
+                    @Override
+                    public void onTitleIconClickListener(int position) {
+                        //your action
+                    }
+                }) // Optional Listeners
+                .build() // Must be called before calling show method
+                .show();
     }
 }
