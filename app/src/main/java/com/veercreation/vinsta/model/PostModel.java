@@ -2,6 +2,8 @@ package com.veercreation.vinsta.model;
 
 public class PostModel {
     private String postId , postImage, postDesc, postedBy , postedAt;
+    private int postLike , commentCount;
+
 
     public PostModel(String postId, String postImage, String postDesc, String postedBy, String postedAt) {
         this.postId = postId;
@@ -52,4 +54,21 @@ public class PostModel {
     public void setPostedAt(String postedAt) {
         this.postedAt = postedAt;
     }
+
+    public int getPostLike() {
+        return postLike;
+    }
+
+    public void setPostLike(int postLike) {
+        this.postLike = postLike;
+    }
+
+    public int getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(int commentCount) {
+        this.commentCount = commentCount;
+    }
+
 }

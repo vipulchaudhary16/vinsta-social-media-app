@@ -22,4 +22,6 @@
     <string name="following">Following</string>
     <string name="post_button_text">post</string>
     <string name="create_a_post_text">Create a Post</string>
+    <string name="caption">Caption....</string>
+    <string name="user_post_desc">User post</string>
 </resources>

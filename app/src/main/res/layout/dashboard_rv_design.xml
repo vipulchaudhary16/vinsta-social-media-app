@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<com.google.android.material.circularreveal.cardview.CircularRevealCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="8dp">
+    android:layout_margin="2dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image_in_post"
@@ -12,7 +15,7 @@
         android:layout_height="@dimen/_40mdp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:civ_border_color="#FF000000"
+        app:civ_border_color="@color/orange"
         app:civ_border_width="2dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -54,7 +57,7 @@
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/postImage"
         android:layout_width="0dp"
-        android:layout_height="@dimen/_150mdp"
+        android:layout_height="320dp"
         android:layout_marginTop="6dp"
         android:scaleType="fitCenter"
         android:src="@drawable/sample_cover"
@@ -75,7 +78,7 @@
         app:srcCompat="@android:drawable/ic_menu_save" />
 
     <TextView
-        android:id="@+id/likes"
+        android:id="@+id/likesTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -89,7 +92,7 @@
         app:layout_constraintTop_toBottomOf="@+id/postImage" />
 
     <TextView
-        android:id="@+id/comments"
+        android:id="@+id/commentsTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -99,11 +102,11 @@
         android:text="77"
         android:textSize="14sp"
         app:drawableStartCompat="@drawable/ic_comment"
-        app:layout_constraintStart_toEndOf="@+id/likes"
+        app:layout_constraintStart_toEndOf="@+id/likesTextView"
         app:layout_constraintTop_toBottomOf="@+id/postImage" />
 
     <TextView
-        android:id="@+id/shareCount"
+        android:id="@+id/sharesTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -113,7 +116,7 @@
         android:text="77"
         android:textSize="14sp"
         app:drawableStartCompat="@drawable/ic_forward"
-        app:layout_constraintStart_toEndOf="@+id/comments"
+        app:layout_constraintStart_toEndOf="@+id/commentsTextView"
         app:layout_constraintTop_toBottomOf="@+id/postImage" />
 
     <TextView
@@ -127,6 +130,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/comments" />
+        app:layout_constraintTop_toBottomOf="@+id/commentsTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.circularreveal.cardview.CircularRevealCardView>

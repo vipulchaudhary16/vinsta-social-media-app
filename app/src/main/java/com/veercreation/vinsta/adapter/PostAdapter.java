@@ -1,6 +1,7 @@
 package com.veercreation.vinsta.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.provider.ContactsContract;
 import android.text.Html;
 import android.util.Log;
@@ -13,12 +14,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.veercreation.vinsta.R;
+import com.veercreation.vinsta.activities.CommentActivity;
 import com.veercreation.vinsta.databinding.DashboardRvDesignBinding;
 import com.veercreation.vinsta.model.PostModel;
 import com.veercreation.vinsta.model.User;
@@ -48,16 +52,22 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.viewholder> {
         return new viewholder(view);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull viewholder holder, int position) {
         PostModel model = postList.get(position);
-        try {
+
+            //setting post image
             Picasso.get()
                     .load(model.getPostImage())
                     .placeholder(R.drawable.sample_cover)
                     .into(holder.binding.postImage);
+            holder.binding.likesTextView.setText(Integer.toString(model.getPostLike()));
+            holder.binding.commentsTextView.setText(Integer.toString(model.getCommentCount()));
+            holder.binding.postTime.setText(dateFormatter.format(Long.parseLong(model.getPostedAt())));
 
 
+            //setting userdata
             FirebaseDatabase.getInstance().getReference()
                     .child("Users")
                     .child(model.getPostedBy())
@@ -70,8 +80,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.viewholder> {
                                     .placeholder(R.drawable.user)
                                     .into(holder.binding.profileImageInPost);
                             holder.binding.usernameInPost.setText(user.getName());
-                            holder.binding.postTime.setText(dateFormatter.format(Long.parseLong(model.getPostedAt())));
-                            String postDesc =" <b>" + user.getName()+ "</b> " + model.getPostDesc();
+                            String postDesc = " <b>" + user.getName() + "</b> " + model.getPostDesc();
                             holder.binding.postDesc.setText(Html.fromHtml(postDesc));
                         }
 
@@ -80,9 +89,65 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.viewholder> {
 
                         }
                     });
-        } catch (Exception e) {
-            Log.i("postsize", e.toString());
-        }
+
+        FirebaseDatabase.getInstance().getReference()
+                .child("posts")
+                .child(model.getPostId())
+                .child("likes")
+                .child(FirebaseAuth.getInstance().getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            Log.i("likes" ,"liked" );
+                            holder.binding.likesTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_liked, 0, 0, 0);
+                        } else {
+                            holder.binding.likesTextView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                Log.i("likes" ,"liked now" );
+                                    FirebaseDatabase.getInstance().getReference()
+                                            .child("posts")
+                                            .child(model.getPostId())
+                                            .child("likes")
+                                            .child(FirebaseAuth.getInstance().getUid())
+                                            .setValue(true)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void unused) {
+                                                    FirebaseDatabase.getInstance().getReference()
+                                                            .child("posts")
+                                                            .child(model.getPostId())
+                                                            .child("postLike")
+                                                            .setValue(model.getPostLike() + 1)
+                                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                @Override
+                                                                public void onSuccess(Void unused) {
+                                                                    holder.binding.likesTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_liked, 0, 0, 0);
+                                                                    holder.binding.likesTextView.setText(model.getPostLike() + 1 + "");
+                                                                }
+                                                            });
+                                                }
+                                            });
+
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) { }
+                });
+
+        holder.binding.commentsTextView.setOnClickListener(view -> {
+            Intent intent = new Intent(context , CommentActivity.class);
+            intent.putExtra("postId" , model.getPostId());
+            intent.putExtra("postedBy" , model.getPostedBy());
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        });
+
+
     }
 
     @Override

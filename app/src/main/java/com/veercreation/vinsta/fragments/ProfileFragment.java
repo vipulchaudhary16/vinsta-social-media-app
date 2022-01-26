@@ -27,6 +27,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import com.veercreation.vinsta.LogInActivity;
+import com.veercreation.vinsta.MainActivity;
 import com.veercreation.vinsta.R;
 import com.veercreation.vinsta.adapter.FollowerAdapter;
 import com.veercreation.vinsta.databinding.FragmentProfileBinding;
@@ -98,13 +99,11 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         binding.editCoverPic.setOnClickListener(view1 -> selectPic(1));
         binding.profileImageInProfile.setOnClickListener(view1 -> selectPic(2));
-        binding.floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                auth.signOut();
-                Intent intent = new Intent(getContext() , LogInActivity.class);
-                startActivity(intent);
-            }
+        binding.floatingActionButton.setOnClickListener(view12 -> {
+            auth.signOut();
+            Intent intent = new Intent(getContext() , LogInActivity.class);
+            startActivity(intent);
+            requireActivity().finish();
         });
         loadUserData();
     }

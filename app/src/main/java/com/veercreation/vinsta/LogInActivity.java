@@ -31,6 +31,7 @@ public class LogInActivity extends AppCompatActivity {
         binding.registerTextView.setOnClickListener(view -> {
             Intent intent = new Intent(LogInActivity.this, SignUpActivity.class);
             startActivity(intent);
+            finish();
         });
 
         binding.loginButton.setOnClickListener(view -> logInUser());
@@ -66,5 +67,6 @@ public class LogInActivity extends AppCompatActivity {
     private void moveToHomeScreen(){
         Intent intent = new Intent(LogInActivity.this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 }

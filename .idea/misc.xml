@@ -4,18 +4,24 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/@Programming/Android Development/AndroidStudio/Vinsta/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
+        <entry key="..\:/@Programming/Android Development/AndroidStudio/Vinsta/app/src/main/res/drawable/caption_bg.xml" value="0.2484375" />
+        <entry key="..\:/@Programming/Android Development/AndroidStudio/Vinsta/app/src/main/res/drawable/cmnts_bg.xml" value="0.1" />
+        <entry key="..\:/@Programming/Android Development/AndroidStudio/Vinsta/app/src/main/res/drawable/comment_sample.xml" value="0.1" />
         <entry key="..\:/@Programming/Android Development/AndroidStudio/Vinsta/app/src/main/res/drawable/follow_bg.xml" value="0.1" />
         <entry key="..\:/@Programming/Android Development/AndroidStudio/Vinsta/app/src/main/res/drawable/followed_bg.xml" value="0.1" />
         <entry key="..\:/@Programming/Android Development/AndroidStudio/Vinsta/app/src/main/res/drawable/ic_baseline_edit_24.xml" value="0.24739583333333334" />
         <entry key="..\:/@Programming/Android Development/AndroidStudio/Vinsta/app/src/main/res/drawable/ic_comment.xml" value="0.2484375" />
         <entry key="..\:/@Programming/Android Development/AndroidStudio/Vinsta/app/src/main/res/drawable/ic_like.xml" value="0.2484375" />
         <entry key="..\:/@Programming/Android Development/AndroidStudio/Vinsta/app/src/main/res/drawable/input_bg.xml" value="0.1287037037037037" />
+        <entry key="..\:/@Programming/Android Development/AndroidStudio/Vinsta/app/src/main/res/drawable/username_bg.xml" value="0.1" />
+        <entry key="..\:/@Programming/Android Development/AndroidStudio/Vinsta/app/src/main/res/layout/activity_comment.xml" value="0.264" />
         <entry key="..\:/@Programming/Android Development/AndroidStudio/Vinsta/app/src/main/res/layout/activity_log_in.xml" value="0.264" />
         <entry key="..\:/@Programming/Android Development/AndroidStudio/Vinsta/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/@Programming/Android Development/AndroidStudio/Vinsta/app/src/main/res/layout/activity_sign_up.xml" value="0.4" />
+        <entry key="..\:/@Programming/Android Development/AndroidStudio/Vinsta/app/src/main/res/layout/comment_sample.xml" value="0.72" />
         <entry key="..\:/@Programming/Android Development/AndroidStudio/Vinsta/app/src/main/res/layout/dashboard_rv_design.xml" value="0.264" />
-        <entry key="..\:/@Programming/Android Development/AndroidStudio/Vinsta/app/src/main/res/layout/fragment_add.xml" value="0.264" />
-        <entry key="..\:/@Programming/Android Development/AndroidStudio/Vinsta/app/src/main/res/layout/fragment_home.xml" value="0.2088495575221239" />
+        <entry key="..\:/@Programming/Android Development/AndroidStudio/Vinsta/app/src/main/res/layout/fragment_add.xml" value="0.2" />
+        <entry key="..\:/@Programming/Android Development/AndroidStudio/Vinsta/app/src/main/res/layout/fragment_home.xml" value="0.1" />
         <entry key="..\:/@Programming/Android Development/AndroidStudio/Vinsta/app/src/main/res/layout/fragment_notification.xml" value="0.2" />
         <entry key="..\:/@Programming/Android Development/AndroidStudio/Vinsta/app/src/main/res/layout/fragment_notification_in_notification.xml" value="0.2" />
         <entry key="..\:/@Programming/Android Development/AndroidStudio/Vinsta/app/src/main/res/layout/fragment_profile.xml" value="0.536" />
