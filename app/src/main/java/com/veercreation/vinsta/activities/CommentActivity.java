@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -28,6 +29,7 @@ import com.veercreation.vinsta.model.User;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 public class CommentActivity extends AppCompatActivity {
     ActivityCommentBinding binding;
@@ -44,6 +46,10 @@ public class CommentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityCommentBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        setSupportActionBar(binding.toolbar);
+        CommentActivity.this.setTitle("Comments");
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         database = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -136,6 +142,8 @@ public class CommentActivity extends AppCompatActivity {
                                             {
                                                 binding.commentEditText.setText("");
                                                 Toast.makeText(getApplicationContext(), "commented", Toast.LENGTH_SHORT).show();
+                                                binding.commentRV.smoothScrollToPosition(adapter.getItemCount());
+
                                             }).addOnFailureListener(e -> Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show());
                                 }
 
@@ -173,5 +181,11 @@ public class CommentActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        finish();
+        return super.onOptionsItemSelected(item);
     }
 }

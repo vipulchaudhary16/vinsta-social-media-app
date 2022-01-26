@@ -1,37 +1,43 @@
 package com.veercreation.vinsta.model;
 
+import java.util.ArrayList;
+
 public class StoryModel {
-    int story  , profile;
-    String name;
+    private String storyBy;
+    private  long storyAt;
+    ArrayList<UserStories> stories;
 
-    public StoryModel(int story, int profile, String name) {
-        this.story = story;
-        this.profile = profile;
-        this.name = name;
+    public StoryModel(String storyBy, long storyAt, ArrayList<UserStories> stories) {
+        this.storyBy = storyBy;
+        this.storyAt = storyAt;
+        this.stories = stories;
     }
 
-    public int getStory() {
-        return story;
-    }
-
-    public void setStory(int story) {
-        this.story = story;
+    public StoryModel() {
     }
 
 
-    public int getProfile() {
-        return profile;
+    public String getStoryBy() {
+        return storyBy;
     }
 
-    public void setProfile(int profile) {
-        this.profile = profile;
+    public void setStoryBy(String storyBy) {
+        this.storyBy = storyBy;
     }
 
-    public String getName() {
-        return name;
+    public long getStoryAt() {
+        return storyAt;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setStoryAt(long storyAt) {
+        this.storyAt = storyAt;
+    }
+
+    public ArrayList<UserStories> getStories() {
+        return stories;
+    }
+
+    public void setStories(ArrayList<UserStories> stories) {
+        this.stories = stories;
     }
 }

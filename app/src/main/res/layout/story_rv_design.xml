@@ -10,7 +10,6 @@
         android:layout_height="@dimen/_85mdp"
         android:layout_marginEnd="7dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/profile_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -25,11 +24,22 @@
         android:layout_height="@dimen/_30mdp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
-        android:src="@drawable/profile_icon"
-        app:civ_border_color="#FF000000"
-        app:civ_border_width="2dp"
         app:layout_constraintStart_toStartOf="@+id/storyImage"
         app:layout_constraintTop_toTopOf="@+id/storyImage" />
+
+    <com.devlomi.circularstatusview.CircularStatusView
+        android:id="@+id/storyCircleView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/profile_image_in_story"
+        app:layout_constraintEnd_toEndOf="@id/profile_image_in_story"
+        app:layout_constraintStart_toStartOf="@id/profile_image_in_story"
+        app:layout_constraintTop_toTopOf="@+id/profile_image_in_story"
+        app:portion_color="@color/orange"
+        app:portion_spacing="5dp"
+        app:portion_width="2dp"
+        app:portions_count="4" />
+
 
     <TextView
         android:id="@+id/username_in_storyCard"
@@ -37,8 +47,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="7dp"
         android:layout_marginBottom="3dp"
+        android:padding="4dp"
         android:text="@string/vipul_class"
-        android:textColor="#FFFDE7"
+        android:background="@drawable/username_bg"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/storyImage"
         app:layout_constraintStart_toStartOf="@+id/storyImage" />
 

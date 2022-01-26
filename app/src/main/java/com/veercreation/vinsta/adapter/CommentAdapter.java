@@ -1,6 +1,7 @@
 package com.veercreation.vinsta.adapter;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,10 +9,15 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 import com.veercreation.vinsta.R;
 import com.veercreation.vinsta.databinding.CommentSampleBinding;
 import com.veercreation.vinsta.model.Comment;
+import com.veercreation.vinsta.model.User;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -28,7 +34,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.viewHold
         this.context = context;
     }
 
-
     @NonNull
     @Override
     public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -39,8 +44,30 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.viewHold
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
         Comment comment = comments.get(position);
-        holder.binding.commentBody.setText(comment.getCommentBody());
-        holder.binding.commentTime.setText(setCommentTime(comment.getCommentedAt()));
+        holder.binding.commentTime.setText(setTime(comment.getCommentedAt()));
+        FirebaseDatabase.getInstance().getReference()
+                .child("Users")
+                .child(comment.getCommentedBy())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.exists())
+                        {
+                            User user = snapshot.getValue(User.class);
+                            String commentBody = "<b>" + user.getName() + "</b> " + comment.getCommentBody();
+                            holder.binding.commentBody.setText(Html.fromHtml(commentBody));
+                            Picasso.get()
+                                    .load(user.getProfile_picture())
+                                    .placeholder(R.drawable.user)
+                                    .into(holder.binding.profileImageInComment);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
 
     }
 
@@ -58,7 +85,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.viewHold
         }
     }
 
-    private String setCommentTime(Long commentTime){
+    public static String setTime(Long commentTime){
         long currentTime = new Date().getTime();
         long timeGap = (currentTime-commentTime)/60000;
         if(timeGap==0){

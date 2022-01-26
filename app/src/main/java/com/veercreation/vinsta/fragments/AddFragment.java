@@ -137,34 +137,38 @@ public class AddFragment extends Fragment {
     }
 
     void addPostToDatabase() {
-        binding.progressBar.setVisibility(View.VISIBLE);
-        binding.postButton.setEnabled(false);
-        progressDialog.show();
+
         final StorageReference userPostPath = storage.getReference()
                 .child("posts")
                 .child(Objects.requireNonNull(auth.getUid()))
                 .child(new Date().getTime() + "");
 
-        userPostPath.putFile(postUri).addOnSuccessListener(taskSnapshot -> {
-            userPostPath.getDownloadUrl().addOnSuccessListener(uri -> {
-                PostModel post = new PostModel();
-                post.setPostImage(uri.toString());
-                post.setPostDesc(binding.editTextPostDesc.getText().toString());
-                post.setPostedBy(auth.getUid());
-                post.setPostedAt(String.valueOf(new Date().getTime()));
+        if(postUri==null){
+            Toast.makeText(requireContext() , "Photo to select kro boss" , Toast.LENGTH_SHORT).show();
+        } else {
+            binding.progressBar.setVisibility(View.VISIBLE);
+            binding.postButton.setEnabled(false);
+            progressDialog.show();
 
-                database.getReference().child("posts")
-                        .push()
-                        .setValue(post)
-                        .addOnSuccessListener(unused -> {
-                            binding.progressBar.setVisibility(View.INVISIBLE);
-                            binding.postButton.setEnabled(true);
-                            Toast.makeText(getContext(), "Posted", Toast.LENGTH_SHORT).show();
-                            progressDialog.dismiss();
-                        });
+            userPostPath.putFile(postUri).addOnSuccessListener(taskSnapshot -> {
+                userPostPath.getDownloadUrl().addOnSuccessListener(uri -> {
+                    PostModel post = new PostModel();
+                    post.setPostImage(uri.toString());
+                    post.setPostDesc(binding.editTextPostDesc.getText().toString());
+                    post.setPostedBy(auth.getUid());
+                    post.setPostedAt(String.valueOf(new Date().getTime()));
+                    database.getReference().child("posts")
+                            .push()
+                            .setValue(post)
+                            .addOnSuccessListener(unused -> {
+                                binding.progressBar.setVisibility(View.INVISIBLE);
+                                binding.postButton.setEnabled(true);
+                                Toast.makeText(getContext(), "Posted", Toast.LENGTH_SHORT).show();
+                                progressDialog.dismiss();
+                            });
+                });
             });
-        });
-
+        }
 
     }
 }

@@ -64,7 +64,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.viewholder> {
                     .into(holder.binding.postImage);
             holder.binding.likesTextView.setText(Integer.toString(model.getPostLike()));
             holder.binding.commentsTextView.setText(Integer.toString(model.getCommentCount()));
-            holder.binding.postTime.setText(dateFormatter.format(Long.parseLong(model.getPostedAt())));
+            holder.binding.postTime.setText(CommentAdapter.setTime(Long.parseLong(model.getPostedAt())));
 
 
             //setting userdata
