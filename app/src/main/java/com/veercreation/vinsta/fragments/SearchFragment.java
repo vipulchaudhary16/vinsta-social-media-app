@@ -26,6 +26,7 @@ public class SearchFragment extends Fragment {
 
     FragmentSearchBinding binding;
     ArrayList<User> userArrayList = new ArrayList<>();
+    UserSearchAdapter adapter;
     FirebaseAuth auth;
     FirebaseDatabase firebaseDatabase;
 
@@ -44,21 +45,31 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding =  FragmentSearchBinding.inflate(inflater, container, false);
-        UserSearchAdapter adapter = new UserSearchAdapter(getContext() , userArrayList);
+         adapter = new UserSearchAdapter(getContext() , userArrayList);
 
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         binding.usersOnVinsta.setLayoutManager(layoutManager);
         binding.usersOnVinsta.setAdapter(adapter);
 
+
+
+
+        return  binding.getRoot();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        //load userList
         firebaseDatabase.getReference().child("Users").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 userArrayList.clear();
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
-                User user = dataSnapshot.getValue(User.class);
-                if(!dataSnapshot.getKey().equals(FirebaseAuth.getInstance().getUid()))
-                    userArrayList.add(user);
+                    User user = dataSnapshot.getValue(User.class);
+                    if(!dataSnapshot.getKey().equals(FirebaseAuth.getInstance().getUid()))
+                        userArrayList.add(user);
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -68,8 +79,5 @@ public class SearchFragment extends Fragment {
 
             }
         });
-
-
-        return  binding.getRoot();
     }
 }

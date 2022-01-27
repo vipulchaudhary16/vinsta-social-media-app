@@ -77,7 +77,6 @@ public class UserSearchAdapter extends RecyclerView.Adapter<UserSearchAdapter.vi
                     holder.binding.followButton.setEnabled(false);
                 } else {
                     holder.binding.followButton.setOnClickListener(view -> {
-                        list.clear();
                         FollowerModel followerModel = new FollowerModel();
                         followerModel.setFollowedBy(FirebaseAuth.getInstance().getUid());
                         followerModel.setFollowedAt(new Date().getTime());

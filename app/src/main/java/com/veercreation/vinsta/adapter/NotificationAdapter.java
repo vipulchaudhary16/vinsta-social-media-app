@@ -1,12 +1,15 @@
 package com.veercreation.vinsta.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.veercreation.vinsta.R;
+import com.veercreation.vinsta.activities.CommentActivity;
 import com.veercreation.vinsta.databinding.NotificationRvDesignBinding;
 import com.veercreation.vinsta.global.Function;
 import com.veercreation.vinsta.keys.DatabaseUtilities;
@@ -79,6 +83,30 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
                     }
                 });
+
+        holder.binding.notificationCnt.setOnClickListener(view ->{
+            if(!type.equals(NotificationTypes.FOLLOW)) {
+                FirebaseDatabase.getInstance().getReference()
+                        .child(DatabaseUtilities.NOTIFICATION)
+                        .child(model.getPostedBy())
+                        .child(model.getNotiID())
+                        .child(NotificationTypes.OPENEDORNOT)
+                        .setValue(true);
+                holder.binding.notificationTextView.setTextColor(Color.parseColor("#FFFFFF"));
+                Intent intent = new Intent(context, CommentActivity.class);
+                intent.putExtra("postId", model.getPostID());
+                intent.putExtra("postedBy", model.getPostedBy());
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            } else  {
+                Toast.makeText(context , "Aap bhi follow back de do" , Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        boolean checkOpen = model.isCheckOpen();
+        if(checkOpen){
+            holder.binding.notificationTextView.setTextColor(Color.parseColor("#FFFFFF"));
+        }
 
     }
 
