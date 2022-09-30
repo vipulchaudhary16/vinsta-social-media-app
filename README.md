@@ -1,4 +1,4 @@
-## Instagram Clone App
+## Social Media App
 
   ![Vinsta](https://user-images.githubusercontent.com/77090657/192953826-63f66889-7190-4f40-914b-13c6aadfcb9c.png)
 
